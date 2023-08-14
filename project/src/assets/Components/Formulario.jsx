@@ -1,6 +1,7 @@
 import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import AlertComponent from "./Alert";
 
 
 
@@ -9,25 +10,41 @@ const Formulario = () =>{
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [error , setError] = useState(false)
+    const [success, setSuccess] = useState(false);
 
     const validationSubmit = (e) => {
         e.preventDefault()
         
         if (nombre === '' || email === '' || password === '' || confirmPassword === ''  ) {
             console.log('All fields are Required')
+            setError('All fields are Required');
+            setSuccess(false);
             return
         }
         
-        if (password !== confirmPassword) {
-            console.log('Your Passwords dosnt match')
-            return
-        }
-
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         if (!emailRegex.test(email)) {
         console.log('Invalid email format');
+        setError('Invalid email format');
+        setSuccess(false);
         return;
         }
+
+        if (password !== confirmPassword) {
+            console.log('Your Passwords dosnt match')
+            setError('Your Passwords dosnt match');
+            setSuccess(false);
+            return
+        }
+
+        setError(false);
+        setNombre('')
+        setEmail('')
+        setPassword('')
+        setConfirmPassword('')
+        setSuccess(true);
+
     }
 
     return(
@@ -76,6 +93,9 @@ const Formulario = () =>{
             <div>
              <Button className="boton" variant="success" type="submit">Registrarse</Button>{' '}
             </div>
+
+            {error ? <AlertComponent error={error} /> : null }
+            {success ? <AlertComponent success={true} /> : null}
         </form>
 
         </>

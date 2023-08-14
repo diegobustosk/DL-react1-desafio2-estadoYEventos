@@ -24,7 +24,6 @@ const register = () => {
 
         <h6>O usa tu email para registrarte</h6>
         <Formulario />
-        <Alert />
         </div>
 
         </>
